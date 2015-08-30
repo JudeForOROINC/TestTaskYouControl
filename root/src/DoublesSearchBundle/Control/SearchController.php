@@ -35,15 +35,15 @@ class SearchController{
     protected function processFolder( FolderModel $path){
         $manager = $this->getManager();
         $res =  $manager->scanFolder($path->getFullPath());
-        if (count($res['folder'])>0){
-            foreach ($res['folder'] as $folder) {
+        if (count($res[$manager::FOLDERS_ARRAY])>0){
+            foreach ($res[$manager::FOLDERS_ARRAY] as $folder) {
                 $child = new FolderModel($path);
                 $child->setName($folder);
                 $this->processFolder($child);
             }
         }
-        if (count($res['files'])>0){
-            foreach ($res['files'] as $file) {
+        if (count($res[$manager::FILES_ARRAY])>0){
+            foreach ($res[$manager::FILES_ARRAY] as $file) {
                 $this->addFile($file,$path);
             }
         }
@@ -52,9 +52,10 @@ class SearchController{
 
     protected function addFile($file, FolderModel $path){
         $filemod = new FileModel($path);
+        $filemod->setName($file);
         if(false !== ($size = $this->getManager()->getFileSize($filemod->getFullName())) ){
-            $this->filelist[$size]= $filemod;
-            $filemod->setName($file);
+            $this->filelist[$size][]= $filemod;
+            $filemod->setSize($size);
         };
 
     }
@@ -80,12 +81,13 @@ class SearchController{
             $main = array_pop($Doubles);
             foreach($Doubles as $double){
                 if($this->getManager()->isEdentical($main->getFullName(),$double->getFullName())){
-                    $result[] = $main;
-                    $result[] = $double;
+                    $result[$main->getFullName()] = $main;
+                    $result[$double->getFullName()] = $double;
                 };
             }
         }
-        return array_unique($result);
+        //var_dump($result);
+        return array_values($result);
     }
 
     protected function showResult($result){

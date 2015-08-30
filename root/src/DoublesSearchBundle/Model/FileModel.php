@@ -14,7 +14,7 @@ class FileModel{
      * return full path to file. if folder is empty return false;
      */
     public function getFullName(){
-        if (!empty($folder)) {
+        if ($this->folder) {
             return $this->folder->getFullPath() . DIRECTORY_SEPARATOR . $this->name;
         }
         return false;

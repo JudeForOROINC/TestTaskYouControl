@@ -74,7 +74,7 @@ function process_path($path){
 function treeScan($path)
 {
     if (check_path($path)) {
-        $dir = scandir($path);
+        $dir = @scandir($path);
         foreach ($dir as $dirname) {
             if ( ($dirname == '.' ) or ($dirname == '..') ) continue;
             if (check_path($path.DIRECTORY_SEPARATOR.$dirname)){
@@ -92,7 +92,7 @@ function treeScan($path)
  */
 function add_file($path){
     global $files;
-    $size = filesize($path);
+    $size = @filesize($path);
     $key = $size;
     $files[$key][] = $path;
 };
@@ -122,18 +122,18 @@ function SearchDoubles(){
 
 function is_really_double($file1,$file2,$buffer_long = 8192)
 {
-    if(! $f1 = fopen($file1,'rb')){
+    if(! $f1 = @fopen($file1,'rb')){
         return false;
     };
-    if(! $f2 = fopen($file2,'rb')){
+    if(! $f2 = @fopen($file2,'rb')){
         fclose($f1);
         return false;
     };
 
     while ( ! feof($f1)){
-        if (false !==( $buf = fread($f1, $buffer_long) ) ) {
-            if (false !==( $buf2 = fread($f2, $buffer_long) )) {
-                if (! $buf xor $buf2) {
+        if (false !==( $buf = @fread($f1, $buffer_long) ) ) {
+            if (false !==( $buf2 = @fread($f2, $buffer_long) )) {
+                if ( $buf === $buf2) {
                     continue;
                 }
             }

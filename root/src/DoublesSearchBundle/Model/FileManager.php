@@ -7,6 +7,8 @@ class FileManager {
     protected $bufferLong = 8192;
     protected $silentMode = true;
 
+    const FOLDERS_ARRAY = 'folders';
+    const FILES_ARRAY = 'files';
     /**
      * @param $path string path to folder search;
      * @return array
@@ -26,7 +28,7 @@ class FileManager {
                 }
             }
         }
-        return ['folders' => $dirList,'files'=>$fileList];
+        return [$this::FOLDERS_ARRAY => $dirList,$this::FILES_ARRAY=>$fileList];
     }
 
     public function check_path($path)
@@ -51,10 +53,11 @@ class FileManager {
     }
 
     public function isEdentical($file1,$file2){
-        if(! $this->silentMode ?  $f1 = @fopen($file1,'rb') : $f1 = fopen($file1,'rb')){
+        if(! $f1 = ($this->silentMode ? @fopen($file1,'rb') : fopen($file1,'rb'))){
             return false;
         };
-        if(! $this->silentMode ? $f2 = @fopen($file2,'rb') : $f2 = fopen($file2,'rb')){
+        if(! $f2 = ($this->silentMode ? @fopen($file2,'rb') : fopen($file2,'rb'))){
+//        if(! $this->silentMode ? $f2 = @fopen($file2,'rb') : $f2 = fopen($file2,'rb')){
             fclose($f1);
             return false;
         };
@@ -62,7 +65,7 @@ class FileManager {
         while ( ! feof($f1)){
             if (false !==( $buf = $this->silentMode ? @fread($f1, $this->bufferLong) : fread($f1, $this->bufferLong) ) ) {
                 if (false !==( $buf2 = $this->silentMode ? @fread($f2, $this->bufferLong) : fread($f2, $this->bufferLong) )) {
-                    if (! $buf xor $buf2) {
+                    if ( $buf === $buf2) {
                         continue;
                     }
                 }

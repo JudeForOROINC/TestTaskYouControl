@@ -16,7 +16,7 @@ class FolderModel{
         $this->files[]=$file;
     }
 
-    public function __constructor(FolderModel $parent = null){
+    public function __construct(FolderModel $parent = null){
         $this->parent = $parent; //null for root folder;
         if (!empty($this->parent)){
             $parent->addChild($this);
@@ -32,9 +32,10 @@ class FolderModel{
         /** @var FolderModel $parent */
         $parent = $this->parent;
         while ($parent){
-            $path = $parent->name . $path;
+            $path = $parent->name .DIRECTORY_SEPARATOR . $path;
             $parent = $parent->parent;
         }
+        return $path;
     }
 
     /**
