@@ -145,7 +145,7 @@ function is_really_double($file1,$file2,$buffer_long = 8192)
     }
     fclose($f1);
     fclose($f2);
-    print "doubles = $file1 + $file2";
+    //print "doubles = $file1 + $file2";
     return true;
 }
 
