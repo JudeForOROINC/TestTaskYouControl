@@ -33,3 +33,20 @@ task:
 60 минут = написание и тестирование кода.
 ?? минут = оформление, форматирование причесывание.
 итого 2 ч.
+
+How to
+=======
+
+Run Tests
+---------
+
+- Clone project to you server;
+- Run composer to upload vendors;
+- for ubuntu: type in comand line "php bin/phpUnit -c Resource /path/to/test/wich/you/want/to/start"
+
+Versions of application
+-----------------------
+
+- to run version 1 = procedure style = type "php app.php test_Data/or/other/folder/to/search/doubles"
+- to run version 2 = with autoload + OOP = type "php app_v2.php test_Data/or/other/folder/to/search/doubles"
+
