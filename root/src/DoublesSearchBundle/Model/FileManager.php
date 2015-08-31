@@ -31,6 +31,10 @@ class FileManager {
         return [$this::FOLDERS_ARRAY => $dirList,$this::FILES_ARRAY=>$fileList];
     }
 
+    /**
+     * @param $path
+     * @return bool
+     */
     public function check_path($path)
     {
         if ($this->silentMode) {
@@ -41,6 +45,10 @@ class FileManager {
         return $result;
     }
 
+    /**
+     * @param $file
+     * @return bool|int
+     */
     public function getFileSize($file)
     {
 
@@ -52,12 +60,16 @@ class FileManager {
         }
     }
 
-    public function isEdentical($file1,$file2){
+    /**
+     * @param $file1
+     * @param $file2
+     * @return bool
+     */
+    public function isIdentical($file1,$file2){
         if(! $f1 = ($this->silentMode ? @fopen($file1,'rb') : fopen($file1,'rb'))){
             return false;
         };
         if(! $f2 = ($this->silentMode ? @fopen($file2,'rb') : fopen($file2,'rb'))){
-//        if(! $this->silentMode ? $f2 = @fopen($file2,'rb') : $f2 = fopen($file2,'rb')){
             fclose($f1);
             return false;
         };

@@ -20,6 +20,9 @@ class FileModel{
         return false;
     }
 
+    /**
+     * @param FolderModel $folder
+     */
     public function __construct(FolderModel $folder){
         $this->folder = $folder;
         if (!empty($this->folder)){

@@ -12,9 +12,9 @@ class TestFileModel extends \PHPUnit_Framework_TestCase{
         $FolderModel->expects($this->any())->method('getFullPath')->will($this->returnValue('Root/Folder'));
 
         $f = new FileModel($FolderModel);
-        $f->getName('myFile');
+        $f->setName('myFile');
         $name = $f->getFullName();
-        $this->assertNotEquals($name,'Root/Folder/myFile', 'Get Full Name Fail');
+        $this->assertEquals($name,'Root/Folder/myFile', 'Get Full Name Fail');
     }
 
     /**

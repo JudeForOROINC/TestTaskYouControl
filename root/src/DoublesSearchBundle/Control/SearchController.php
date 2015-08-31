@@ -80,7 +80,7 @@ class SearchController{
             /** @var FileModel $main */
             $main = array_pop($Doubles);
             foreach($Doubles as $double){
-                if($this->getManager()->isEdentical($main->getFullName(),$double->getFullName())){
+                if($this->getManager()->isIdentical($main->getFullName(),$double->getFullName())){
                     $result[$main->getFullName()] = $main;
                     $result[$double->getFullName()] = $double;
                 };

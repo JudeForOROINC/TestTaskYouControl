@@ -2,21 +2,34 @@
 
 namespace DoublesSearchBundle\Model;
 
-class FolderModel{
+class FolderModel
+{
     protected $parent;
     protected $files = array();
     protected $name;
     protected $children=array();
 
-    public function addChild(FolderModel $child){
+    /**
+     * @param FolderModel $child
+     */
+    public function addChild(FolderModel $child)
+    {
         $this->children[]= $child;
     }
 
-    public function addFile(FileModel $file){
+    /**
+     * @param FileModel $file
+     */
+    public function addFile(FileModel $file)
+    {
         $this->files[]=$file;
     }
 
-    public function __construct(FolderModel $parent = null){
+    /**
+     * @param FolderModel $parent
+     */
+    public function __construct(FolderModel $parent = null)
+    {
         $this->parent = $parent; //null for root folder;
         if (!empty($this->parent)){
             $parent->addChild($this);
@@ -27,11 +40,12 @@ class FolderModel{
      * @return bool|string
      * return full path to file. if folder is empty return false;
      */
-    public function getFullPath(){
+    public function getFullPath()
+    {
         $path = $this->name;
         /** @var FolderModel $parent */
         $parent = $this->parent;
-        while ($parent){
+        while ($parent) {
             $path = $parent->name .DIRECTORY_SEPARATOR . $path;
             $parent = $parent->parent;
         }
@@ -54,22 +68,6 @@ class FolderModel{
         return $this->parent;
     }
 
-    public function searchFolder($path)
-    {
-        $dirList = array();
-        if (is_dir($path)){
-            $dir = scandir($path);
-            foreach ($dir as $dirname){
-                if ( ($dirname == '.' ) or ($dirname == '..') ) continue;
-                if ($this->check_path($path.DIRECTORY_SEPARATOR.$dirname)){
-                    $dirList[] = $dirname;
-                } else {
-                    add_file($path.DIRECTORY_SEPARATOR.$dirname);
-                }
-            }
-        }
-        return $dirList;
-    }
 
     /**
      * @return mixed
@@ -86,6 +84,4 @@ class FolderModel{
     {
         $this->name = $name;
     }
-
-
 }

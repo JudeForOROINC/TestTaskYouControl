@@ -11,10 +11,22 @@ class TestFolderModel extends \PHPUnit_Framework_TestCase{
 
         $FolderModel->expects($this->any())->method('getFullPath')->will($this->returnValue('Root/Folder'));
 
-        $f = new FileModel($FolderModel);
-        $f->getName('myFile');
-        $name = $f->getFullName();
+        $f = new FolderModel($FolderModel);
+        $f->setName('myFile');
+        $name = $f->getFullPath();
         $this->assertNotEquals($name,'Root/Folder/myFile', 'Get Full Name Fail');
+    }
+
+    public function testParent(){
+        $FolderModel = $this->getMock('DoublesSearchBundle\Model\FolderModel');
+
+        $FolderModel->expects($this->any())->method('getFullPath')->will($this->returnValue('Root/Folder'));
+
+        $f = new FolderModel($FolderModel);
+        $f->setName('myFile');
+        $p = $f->getParent();
+
+        $this->assertEquals($p->getFullPath(),'Root/Folder');
     }
 
     /**
@@ -23,9 +35,7 @@ class TestFolderModel extends \PHPUnit_Framework_TestCase{
      * @dataProvider DataProvider
      */
     public function testName($property,$value){
-        $FolderModel = $this->getMock('DoublesSearchBundle\Model\FolderModel');
-        $FolderModel->expects($this->any())->method('getFullPath')->will($this->returnValue('Root/Folder'));
-        $f = new FileModel($FolderModel);
+        $f = new FolderModel();
         $setter = 'set'.$property;
         $getter = 'get'.$property;
         $f->$setter($value);
